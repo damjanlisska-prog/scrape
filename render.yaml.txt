@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: mini-scraper-web
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn app:app --workers=2 --threads=4 --timeout=120"
+    envVars:
+      - key: SOURCE_URL
+        value: https://example.com/tenders
+      - key: SCRAPE_TOKEN
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase: mini-scraper-db
+  - type: cron
+    name: mini-scraper-cron
+    schedule: "*/30 * * * *"   # svakih 30 min
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python app.py scrape"
+databases:
+  - name: mini-scraper-db
+    plan: free

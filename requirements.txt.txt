@@ -1,0 +1,5 @@
+flask==3.0.3
+requests==2.32.3
+beautifulsoup4==4.12.3
+sqlmodel==0.0.16
+gunicorn==22.0.0
